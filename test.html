@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<!--
+/*
+ * Photobox
+ *
+ * Copyright 2012, Yair Even Or
+ * https://dropthebit.com
+ *
+ */
+-->
+<html lang="en">
+<head>
+	<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+	<meta charset="utf-8">
+	<title>Photobox</title>
+	<meta name="description" content="A lightweight CSS3 image gallery that is pretty to look and and easy to use">
+	<meta name="viewport" content="width=device-width">
+	<!--link rel="shortcut icon" href="favicon.ico"/-->
+	<!--link rel="stylesheet" href="normal.css"-->
+	<link rel="stylesheet" href="photobox/photobox.css"-->
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="jquery-3.3.1.min.js"></script>
+	<script src='photobox/jquery.photobox.js'></script>
+	<style>
+
+html{ min-height:100%; overflow-y:scroll;  background:#000; }
+body{ font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; padding:0; }
+ 
+::-webkit-scrollbar {
+    width: 1px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+a{ text-decoration:none; }
+
+#wrap{ overflow:hidden; padding:3%; }
+#pbOverlay.show ~ #wrap{ -webkit-filter:blur(2px) grayscale(.4); }
+		
+#gallery2{ 
+	padding:0px; width:80%; min-width: 200px;  height:100%; position:float; float:right; overflow-y: auto; 
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+#gallery2 li{ list-style:none; perspective:100px; -webkit-perspective:100px; margin:1px; float:right; position:relative; transition:.1s; -webkit-transition:0.1s; }
+#gallery a{ display:block; min-width:100%; height:auto; position: relative; vertical-align:center; overflow:hidden; background:rgba(0,0,0,0.1);
+transition:.4s ease-out; -webkit-transition:0.4s ease-out; -webkit-transform:rotateX(90deg) translate(-50px,-50%); transform:rotateX(90deg) translate(-50px,-50%); }
+					
+#gallery{ 
+	padding:20px; width:20%; min-width: 200px;  height:100%; position:fixed; left=0; top=0; overflow-y: auto; 
+    -ms-overflow-style: none;  // IE 10+
+    overflow: -moz-scrollbars-none;  // Firefox
+}
+
+	#gallery li{ list-style:none; perspective:100px; -webkit-perspective:100px; margin:1px; float:left; position:relative; transition:.1s; -webkit-transition:0.1s; }
+		#gallery li.video::before{ content:'\25BA'; color:#FFF; font-size:20px; height:20px; width:20px; line-height:0.9; position:absolute; bottom:3px; left:4px; z-index:1; background:rgba(0,0,0,0.4); box-shadow:0 0 0 3px rgba(0,0,0,0.4); border-radius:0 3px 0 0; pointer-events:none; opacity:0; transition:.5s 0.2s; }
+		#gallery li.loaded.video::before{ opacity:1; }
+		#gallery a{ display:block; min-width:100%; height:auto; position: relative; vertical-align:center; overflow:hidden; background:rgba(0,0,0,0.1); // width1:75px; height1:68px
+					transition:.4s ease-out; -webkit-transition:0.4s ease-out; -webkit-transform:rotateX(90deg) translate(-50px,-50%); transform:rotateX(90deg) translate(-50px,-50%); }
+		#gallery a:active, #gallery a:focus{ outline:none; }
+		#gallery a img{ min-height:100%; width:100%; transition:.3s ease-out; -webkit-transition:0.3s ease-out; }
+		#gallery .loaded a{ -webkit-transform:rotateX(0deg) translate(0,0); transform:rotateX(0deg) translate(0,0); }
+			#gallery li.loaded:hover{ z-index:2; transform:scale(1.5); -webkit-transform:scale(1.5); }
+			#gallery li.loaded a:hover{ box-shadow:0 0 0 2px #FFF, 0 0 20px 5px #000; transition:.1s; -webkit-transition:0.1s; }
+			#gallery li.loaded:hover img{ transform:scale(1.2); -webkit-transform:scale(1.2); }
+			#gallery li.loaded.video:hover::before{ opacity:0; }
+	</style>
+<script>
+ $( function() {
+	
+ });
+</script>
+</head>
+<body>
+	<ul id='gallery'> </ul>
+	<ul id='gallery2'></ul>
+	<!--ul id='gallery' class='loaded'>
+		<li>
+		<a href="F:\style\01.现代简约\00.猪四爷出品整理\1 (1).jpg">
+			<img src="F:\style\01.现代简约\00.猪四爷出品整理\1 (1).jpg"
+				title="photo1 title">
+		</a>
+		</li>
+		<li><a href="F:\style\01.现代简约\00.猪四爷出品整理\1 (2).jpg">
+			<img src="F:\style\01.现代简约\00.猪四爷出品整理\1 (2).jpg"
+				alt="photo2 title">
+		</a>
+		</li>
+		<li>
+		<a href="F:\style\01.现代简约\00.猪四爷出品整理\1 (3).jpg">
+			<img src="F:\style\01.现代简约\00.猪四爷出品整理\1 (3).jpg"
+				title="photo3 title">
+		</a>
+		</li>
+		<li>
+		<a href="F:\style\01.现代简约\00.猪四爷出品整理\1 (4).jpg">
+			<img src="F:\style\01.现代简约\00.猪四爷出品整理\1 (4).jpg"
+				alt="photo4 title" data-pb-captionLink='Google website[www.google.com]'>
+		</a>
+		</li>
+		<li>
+		<a href="F:\style\01.现代简约\00.猪四爷出品整理\1 (5).jpg" rel="video">
+			<img src="F:\style\01.现代简约\00.猪四爷出品整理\1 (5).jpg"
+				title="PEOPLE ARE AWESOME 2013 FULL HD ">
+		</a>
+		</li>
+	</ul-->
+	<script>
+//-------------------------------------------
+// THIS IS NOT A PART OF THE PLUGIN. 
+// ONLY FOR THE DEMO.
+//-------------------------------------------
+
+!(function(){
+    'use strict';
+
+	var numOfImages = window.location.search ? parseInt(window.location.search.match(/\d+$/)[0]) : 70,
+		gallery = $('#gallery'),
+		gallery2 = $('#gallery2'),
+		videos = [
+			{
+				title: "Victoria's Secret",
+				url: "https://player.vimeo.com/video/8974462?byline=0&portrait=0",
+				thumb: "https://b.vimeocdn.com/ts/432/699/43269900_100.jpg"
+			},
+			{
+				title: "PEOPLE ARE AWESOME 2013 FULL HD ",
+				url: "https://www.youtube.com/embed/W3OQgh_h4U4",
+				thumb: "https://img.youtube.com/vi/W3OQgh_h4U4/0.jpg"
+			},
+			{
+				title: "Biting Elbows - 'Bad Motherfucker' Official Music Video",
+				url: "https://player.vimeo.com/video/62092214?byline=0&portrait=0",
+				thumb: "https://b.vimeocdn.com/ts/431/797/431797120_100.jpg"
+			}
+		];
+	/*
+	$.getJSON('http://localhost:8000/data/index.json', function(data) {
+		console.log('here');
+	});*/
+	var gallery_width = getComputedStyle(gallery[0]).width; //gallery[0].offsetWidth - gallery[0].getComputedStyle().paddingLeft;
+	console.log(gallery_width);
+	//$("#gallery a").css("height", gallery_width);
+
+	function showFolder2()
+	{
+		var img = $(this).children()[0];
+		var json = 'data/' + img['json'];
+		//var gallery2 = document.createElement('ul');
+		//gallery2.id = 'gallery2';
+		gallery2.empty();
+		console.log(gallery2[0].offsetWidth);
+		//$.getJSON(json, function(data) {
+		$.ajax({
+			dataType: 'json',
+			url: json,
+		})
+		.done(function (data){
+			var loadedIndex = 1;
+			console.log('here');
+			$.each(data, function(index, photo){
+			var img = document.createElement('img');
+			img.onload = function(e){
+				img.onload = null;
+				var li = document.createElement('li');
+				var link = document.createElement('a');
+				link.href = photo.thumb;
+				link.appendChild(this);
+				li.appendChild(link);
+				gallery2[0].appendChild(li);
+				setTimeout( function(){
+					$(li).addClass('loaded');
+				}, 25 * loadedIndex++);
+			};
+			//img['largeUrl'] = isVideo ? photo.url : url + '_b.jpg';
+			//img['isVideo'] = isVideo;
+			img.src = photo.thumb;
+			img.title = photo.title;
+			//img.style.height=(parseInt(gallery_width) * 68/75) + 'px';
+			});
+			// finally, initialize photobox on all retrieved images
+			$("#gallery2").photobox('a', { thumbs:true }, callback);
+			// using setTimeout to make sure all images were in the DOM, before the history.load() function is looking them up to match the url hash
+			setTimeout(window._photobox.history.load, 1000);
+			function callback(){
+				console.log('callback for loaded content:', this);
+			};
+			setTimeout(trigger_click, 1200);
+			function trigger_click(){
+				$("#gallery2 a").trigger("click");
+			}
+			//gallery2.photobox('prepareDOM');
+		})
+		.fail(function(jqxhr, textStatus, error){
+			console.log(jqxhr);
+			console.log(textStatus);
+			console.log(error);
+		});
+	}
+	function showFolder()
+	{
+		console.log('here');
+	}
+	$.ajax({
+		dataType: 'json',
+		url: 'http://localhost:8000/data/index.json',
+	})
+	.done(function (data){
+		
+		var loadedIndex = 1;
+		$.each(data, function(index, photo){
+			//console.log(photo.thumb);
+			var img = document.createElement('img');
+			img.onload = function(e){
+				img.onload = null;
+				var li = document.createElement('li');
+				var link = document.createElement('a');
+				//link.width = gallery_width;
+				//link.href = photo.thumb;
+				link.appendChild(this);
+				link.onclick = showFolder2;
+				li.appendChild(link);
+				gallery[0].appendChild(li);
+				setTimeout( function(){
+					$(li).addClass('loaded');
+				}, 25 * loadedIndex++);
+			};
+			//img['largeUrl'] = isVideo ? photo.url : url + '_b.jpg';
+			//img['isVideo'] = isVideo;
+			img['json'] = photo.url;
+			img.src = photo.thumb;
+			img.title = photo.title;
+			img.style.height=(parseInt(gallery_width) * 68/75) + 'px';
+		});
+		/*
+		// finally, initialize photobox on all retrieved images
+		$('#gallery').photobox('a', { thumbs:true }, callback);
+		// using setTimeout to make sure all images were in the DOM, before the history.load() function is looking them up to match the url hash
+		setTimeout(window._photobox.history.load, 1000);
+		function callback(){
+			console.log('callback for loaded content:', this);
+		};
+		*/
+	})
+	.fail(function(jqxhr, textStatus, error){
+		console.log(jqxhr);
+		console.log(textStatus);
+		console.log(error);
+	});
+	/*
+
+    // Get some photos from Flickr for the demo
+    $.ajax({
+        url: 'https://api.flickr.com/services/rest/',
+        data: {
+            format: 'json',
+            method: 'flickr.interestingness.getList',
+			per_page : numOfImages,
+            api_key: 'b51d3a7c3988ba6052e25cb152aecba2' // this is my own API key, please use yours
+        },
+	    dataType: 'jsonp',
+        jsonp: 'jsoncallback'
+    })
+	.done(function (data){
+        var loadedIndex = 1, isVideo;
+		
+		// add the videos to the collection
+		data.photos.photo = data.photos.photo.concat(videos);
+		
+        $.each( data.photos.photo, function(index, photo){
+			isVideo = photo.thumb ? true : false;
+			// http://www.flickr.com/services/api/misc.urls.html
+            var url = 'http://farm' + photo.farm + '.static.flickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret,
+				img = document.createElement('img');
+			
+			// lazy show the photos one by one
+			img.onload = function(e){
+				img.onload = null;
+				var link = document.createElement('a'),
+				li = document.createElement('li')
+				link.href = this.largeUrl;
+
+				link.appendChild(this);
+				if( this.isVideo ){
+					link.rel = 'video';
+					li.className = 'video'
+				}
+				li.appendChild(link);
+				gallery[0].appendChild(li);
+			
+				setTimeout( function(){ 
+					$(li).addClass('loaded');
+				}, 25*loadedIndex++);
+			};
+			
+			img['largeUrl'] = isVideo ? photo.url : url + '_b.jpg';
+			img['isVideo'] = isVideo;
+			img.src = isVideo ? photo.thumb : url + '_t.jpg';
+			img.title = photo.title;
+        });
+
+		// finally, initialize photobox on all retrieved images
+		$('#gallery').photobox('a', { thumbs:true }, callback);
+		// using setTimeout to make sure all images were in the DOM, before the history.load() function is looking them up to match the url hash
+		setTimeout(window._photobox.history.load, 1000);
+		function callback(){
+			console.log('callback for loaded content:', this);
+		};
+    });*/
+})();
+	</script>
+	<!--script>
+		// applying photobox on a `gallery` element which has lots of thumbnails links.
+		// Passing options object as well:
+		//-----------------------------------------------
+		$('#gallery').photobox('a',{ time:0 });
+
+		// using a callback and a fancier selector
+		//----------------------------------------------
+		$('#gallery').photobox('li > a.family',{ time:0 }, callback);
+		function callback(){
+		   console.log('image has been loaded');
+		}
+
+		// destroy the plugin on a certain gallery:
+		//-----------------------------------------------
+		$('#gallery').photobox('destroy');
+
+		// re-initialize the photbox DOM (does what Document ready does)
+		//-----------------------------------------------
+		$('#gallery').photobox('prepareDOM');
+*/
+	</script-->
+</body>
+</html>
